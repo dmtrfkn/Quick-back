@@ -105,7 +105,14 @@ export class UserService {
   }
   async addTrack(dto: UpdateUserDto, id: ObjectId) {
     const user = await this.userModel.findById(id);
-    user.tracks.push(dto.trackId);
+      user.tracks = user.tracks.filter(i => i.valueOf() !== dto.trackId)
+      user.tracks.push(dto.trackId)
+    await user.save();
+  }
+
+  async removeTrack(dto: UpdateUserDto, id: ObjectId) {
+    const user = await this.userModel.findById(id);
+    user.tracks = user.tracks.filter(i => i.valueOf() !== dto.trackId)
     await user.save();
   }
 }

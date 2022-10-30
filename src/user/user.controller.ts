@@ -57,13 +57,20 @@ export class UserController {
     return this.userService.auth(token);
   }
 
-  @Patch('/add/:id')
-  addTrack(@Param('id') id: ObjectId, @Body() dto: UpdateUserDto) {
-    return this.userService.addTrack(dto, id);
+  @Patch('/addTrack/:id')
+  async addTrack(@Param('id') id: ObjectId, @Body() dto: UpdateUserDto) {
+    await this.userService.addTrack(dto, id);
+    return this.userService.getOne(id)
   }
 
   @Get(':id')
   getOne(@Param('id') id: ObjectId) {
     return this.userService.getOne(id);
+  }
+
+  @Patch('/removeTrack/:id')
+  async removeTrack(@Param('id') id: ObjectId, @Body() dto: UpdateUserDto) {
+    await this.userService.removeTrack(dto, id);
+    return this.userService.getOne(id)
   }
 }
