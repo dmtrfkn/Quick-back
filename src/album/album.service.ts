@@ -12,23 +12,16 @@ export class AlbumService {
     private fileService: FileService,
   ) {}
 
-  async create(dto: CreateAlbumDto, picture): Promise<Album> {
-    const picturePath = this.fileService.createFile(
-      FileType.ALBUMIMAGE,
-      picture,
-    );
-    const tracks = JSON.parse(dto.tracks as string);
+  async create(dto: CreateAlbumDto): Promise<Album> {
     const album = await this.albumModel.create({
       ...dto,
-      tracks,
-      pictureUrl: picturePath,
     });
 
     return album;
   }
 
   async getAll(): Promise<Album[]> {
-    const albums = await this.albumModel.find();
+    const albums = await this.albumModel.find().populate('tracks');
     return albums;
   }
 

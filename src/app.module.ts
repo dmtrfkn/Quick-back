@@ -6,9 +6,11 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import * as path from 'path';
 import { AlbumModule } from './album/album.module';
 import { UserModule } from './user/user.module';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
+    ChatModule,
     UserModule,
     AlbumModule,
     TrackModule,
@@ -22,4 +24,3 @@ import { UserModule } from './user/user.module';
   ],
 })
 export class AppModule {}
- 

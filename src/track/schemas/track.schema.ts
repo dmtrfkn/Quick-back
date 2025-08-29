@@ -13,12 +13,6 @@ export class Track {
   artist: string;
 
   @Prop()
-  text: string;
-
-  @Prop()
-  category: string;
-
-  @Prop()
   listens: number;
 
   @Prop()
@@ -26,9 +20,6 @@ export class Track {
 
   @Prop()
   audio: string;
-
-  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }] })
-  comments: Comment[];
 }
 
 export const TrackSchema = SchemaFactory.createForClass(Track);

@@ -8,6 +8,9 @@ export enum FileType {
   IMAGE = 'image',
   ALBUMIMAGE = 'album',
   USER = 'user',
+  CHAT = 'chat',
+  CHATDEF = 'chatdef',
+  AVATAR = 'avatar',
 }
 
 @Injectable()
@@ -21,7 +24,7 @@ export class FileService {
         fs.mkdirSync(filePath, { recursive: true });
       }
       fs.writeFileSync(path.resolve(filePath, fileName), file.buffer);
-      return type + '/' + fileName;
+      return JSON.stringify({ url: `${type}/${fileName}` });
     } catch (error) {
       alert('Ошибка в создании файла');
     }

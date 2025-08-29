@@ -24,7 +24,7 @@ export class Album {
       },
     ],
   })
-  tracks: Track[];
+  tracks: mongoose.ObjectId[];
 }
 
 export const AlbumSchema = SchemaFactory.createForClass(Album);

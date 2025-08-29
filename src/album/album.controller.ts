@@ -18,14 +18,8 @@ export class AlbumController {
   constructor(private albumService: AlbumService) {}
 
   @Post()
-  @UseInterceptors(FileFieldsInterceptor([{ name: 'picture', maxCount: 1 }]))
-  create(
-    @UploadedFiles()
-    files,
-    @Body() dto: CreateAlbumDto,
-  ) {
-    const { picture } = files;
-    return this.albumService.create(dto, picture[0]);
+  create(@Body() dto: CreateAlbumDto) {
+    return this.albumService.create(dto);
   }
 
   @Get()

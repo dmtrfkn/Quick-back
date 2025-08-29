@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
@@ -26,6 +27,10 @@ export class UserController {
     return this.userService.getAll();
   }
 
+  @Get('/search')
+  search(@Query('query') query: string) {
+    return this.userService.search(query);
+  }
   @Post()
   create(@Body() dto: CreateUserDto) {
     return this.userService.register(dto);
@@ -37,14 +42,8 @@ export class UserController {
   }
 
   @Patch()
-  @UseInterceptors(FileFieldsInterceptor([{ name: 'picture', maxCount: 1 }]))
-  update(
-    @UploadedFiles()
-    files,
-    @Body() dto: UpdateUserDto,
-  ) {
-    const { picture } = files;
-    return this.userService.update(dto, picture);
+  update(@Body() dto: { pictureUrl: string; id: string }) {
+    return this.userService.update(dto);
   }
 
   @Delete(':id')
@@ -60,7 +59,17 @@ export class UserController {
   @Patch('/addTrack/:id')
   async addTrack(@Param('id') id: ObjectId, @Body() dto: UpdateUserDto) {
     await this.userService.addTrack(dto, id);
-    return this.userService.getOne(id)
+    return this.userService.getOne(id);
+  }
+  @Patch('/addAlbum/:id')
+  async addAlbum(@Param('id') id: ObjectId, @Body() dto: UpdateUserDto) {
+    await this.userService.addAlbum(dto, id);
+    return this.userService.getOne(id);
+  }
+  @Patch('/removeAlbum/:id')
+  async removeAlbum(@Param('id') id: ObjectId, @Body() dto: UpdateUserDto) {
+    await this.userService.removeAlbum(dto, id);
+    return this.userService.getOne(id);
   }
 
   @Get(':id')
@@ -71,6 +80,16 @@ export class UserController {
   @Patch('/removeTrack/:id')
   async removeTrack(@Param('id') id: ObjectId, @Body() dto: UpdateUserDto) {
     await this.userService.removeTrack(dto, id);
-    return this.userService.getOne(id)
+    return this.userService.getOne(id);
+  }
+
+  @Patch('/join')
+  async joinToTheChat(@Body() body: { id: ObjectId; chatId: ObjectId }) {
+    return this.userService.joinToTheChat(body.id, body.chatId);
+  }
+
+  @Patch('/leave')
+  async leaveFromTheChat(@Body() id: ObjectId, @Body() chatId: ObjectId) {
+    return this.userService.leaveOutTheChat(id, chatId);
   }
 }
